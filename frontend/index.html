@@ -36,20 +36,39 @@
             <p>Check our platform to see if your lost item has been found and submitted by security staff.</p>
         </section>
 
-    
-        <section class="filters">
+    <section class="filters">
+            <div class="filter-group" style="flex: 2; min-width: 250px;">
+                <label for="searchQuery">Search Items</label>
+                <input type="text" id="searchQuery" placeholder="e.g., HP charger, student ID, keys..." />
+            </div>
+
             <div class="filter-group">
                 <label for="categoryFilter">Category</label>
                 <select id="categoryFilter">
                     <option value="">All Categories</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Clothing">Clothing</option>
-                    <option value="Documents">Documents</option>
-                    <option value="Accessories">Accessories</option>
-                    <option value="Books">Books</option>
-                    <option value="Other">Other</option>
+                    <option value="Electronics">Electronics & Gadgets</option>
+                    <option value="Clothing">Clothing & Water Bottles</option>
+                    <option value="Documents">IDs & Official Documents</option>
+                    <option value="Accessories">Bags, Keys & Accessories</option>
+                    <option value="Books">Books & Stationery</option>
+                    <option value="Other">Other Items</option>
                 </select>
             </div>
+
+            <div class="filter-group">
+                <label for="locationFilter">Campus Location</label>
+                <select id="locationFilter">
+                    <option value="">All Locations</option>
+                    <option value="STC">Student Centre (STC)</option>
+                    <option value="Library">Main Library</option>
+                    <option value="Phase1_2">Phase I / Phase II</option>
+                    <option value="SirThomas">Sir Thomas More Bldg</option>
+                    <option value="MSB">Management Science Bldg</option>
+                    <option value="SportsComplex">Sports Complex</option>
+                    <option value="Cafeteria">Central Cafeteria</option>
+                </select>
+            </div>
+
             <div class="filter-group">
                 <label for="statusFilter">Status</label>
                 <select id="statusFilter">
@@ -62,7 +81,7 @@
             </div>
             <button class="btn btn-primary" id="applyFilters">Apply Filters</button>
         </section>
-
+      
         
         <section class="items-grid" id="itemsGrid">
             <div class="loading-spinner" id="loadingSpinner">
