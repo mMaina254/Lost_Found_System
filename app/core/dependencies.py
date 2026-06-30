@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import JWTError
 from sqlalchemy.orm import Session
 from app.core.security import decode_access_token
@@ -8,13 +8,14 @@ from app.models.user import User
 
 # This tells FastAPI: "to get a token, look in the Authorization header,
 # at the /auth/login endpoint." It handles extracting the Bearer token automatically.
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = HTTPBearer()
 
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme),
+    credentials: HTTPAuthorizationCredentials = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
 ) -> User:
+    token = credentials.credentials
     """
     This is a FastAPI 'dependency'. Any route that needs an authenticated user
     can declare: current_user: User = Depends(get_current_user)
@@ -34,7 +35,7 @@ def get_current_user(
 
     try:
         payload = decode_access_token(token)
-        user_id: str = payload.get("sub")  # "sub" is the standard JWT claim for subject (user id)
+        user_id: str = payload.get("sub")
         if user_id is None:
             raise credentials_exception
     except JWTError:

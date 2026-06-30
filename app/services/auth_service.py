@@ -70,7 +70,7 @@ def login_user(request: LoginRequest, db: Session) -> TokenResponse:
     # Rule 3: Create JWT with user identity baked in
     # "sub" (subject) is a standard JWT field for the user's identifier
     token = create_access_token(data={
-        "sub": user.id,
+        "sub": str(user.id),
         "role": user.role,
         "email": user.email
     })
