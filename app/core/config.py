@@ -13,5 +13,4 @@ class Settings(BaseSettings):
         env_file = ".env"
 
 
-# A single shared instance used across the whole app
 settings = Settings()
