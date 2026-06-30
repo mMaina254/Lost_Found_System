@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import Literal
+from uuid import UUID
 
 
 class RegisterRequest(BaseModel):
@@ -28,7 +29,7 @@ class UserResponse(BaseModel):
     Safe user data we return to the client.
     password is NOT here. it is never returned, even in hashed form.
     """
-    id: str
+    id: UUID
     full_name: str
     email: str
     role: str
