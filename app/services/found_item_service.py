@@ -1,7 +1,7 @@
 import uuid
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
-from app.models.found_item import FoundItem
+from app.models.found_items import FoundItem
 from app.models.user import User
 from app.schemas.found_item_schemas import FoundItemCreateRequest, FoundItemStatusUpdateRequest
 
