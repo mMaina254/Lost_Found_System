@@ -1,9 +1,5 @@
-/**
- * Inquiries Module - Claim submission and messaging logic
- */
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Setup messaging if on item detail page
+    
     const params = new URLSearchParams(window.location.search);
     const itemId = params.get('id');
     
@@ -13,15 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Load messages for an inquiry
+
 async function loadMessages(itemId) {
-    // First check if there's an active inquiry for this item
+    
     const user = window.API.getCurrentUser();
     if (!user) return;
     
     try {
-        // Get inquiries for this item (if user is security/admin)
-        // Or get student's own inquiries
+    
         let inquiries = [];
         
         if (user.role === 'student') {
@@ -37,11 +32,11 @@ async function loadMessages(itemId) {
             return;
         }
         
-        const inquiry = inquiries[0]; // Use first inquiry
+        const inquiry = inquiries[0]; 
         document.getElementById('messagesSection').style.display = 'block';
         document.getElementById('messagesSection').dataset.inquiryId = inquiry.id;
         
-        // Load messages
+        
         await refreshMessages(inquiry.id);
         
     } catch (error) {
@@ -49,7 +44,6 @@ async function loadMessages(itemId) {
     }
 }
 
-// Refresh messages for an inquiry
 async function refreshMessages(inquiryId) {
     try {
         const messages = await window.API.apiGet(`/inquiries/${inquiryId}/messages`);
@@ -72,7 +66,6 @@ async function refreshMessages(inquiryId) {
             </div>
         `).join('');
         
-        // Scroll to bottom
         container.scrollTop = container.scrollHeight;
         
     } catch (error) {
@@ -80,7 +73,6 @@ async function refreshMessages(inquiryId) {
     }
 }
 
-// Setup messaging form
 function setupMessaging(itemId) {
     const form = document.getElementById('messageForm');
     if (!form) return;
@@ -108,7 +100,6 @@ function setupMessaging(itemId) {
     });
 }
 
-// Load student's claims (for dashboard)
 async function loadMyClaims() {
     const container = document.getElementById('myClaimsContainer');
     if (!container) return;
@@ -121,7 +112,6 @@ async function loadMyClaims() {
             return;
         }
         
-        // Get item details for each inquiry
         const items = await Promise.all(
             inquiries.map(async (inq) => {
                 try {
@@ -152,13 +142,12 @@ async function loadMyClaims() {
     }
 }
 
-// Load inquiries for security staff (for dashboard)
 async function loadInquiriesForReview() {
     const container = document.getElementById('inquiriesContainer');
     if (!container) return;
     
     try {
-        // Get all items posted by this security staff
+       
         const items = await window.API.apiGet('/found-items');
         const myItems = items.filter(item => item.posted_by_id === window.API.getCurrentUser()?.id);
         
@@ -167,7 +156,6 @@ async function loadInquiriesForReview() {
             return;
         }
         
-        // Get inquiries for all my items
         let allInquiries = [];
         for (const item of myItems) {
             try {
@@ -207,7 +195,6 @@ async function loadInquiriesForReview() {
     }
 }
 
-// Expose inquiry functions
 window.Inquiries = {
     loadMessages,
     refreshMessages,

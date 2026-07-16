@@ -1,7 +1,3 @@
-/**
- * Items Module - Found items listing and detail logic
- */
-
 document.addEventListener('DOMContentLoaded', function() {
     const pathname = window.location.pathname;
     
@@ -15,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Load found items listing
+
 async function loadItems(filters = {}) {
     const container = document.getElementById('itemsContainer');
     const spinner = document.getElementById('loadingSpinner');
@@ -23,11 +19,11 @@ async function loadItems(filters = {}) {
     if (!container) return;
     
     try {
-        // Show spinner
+        
         if (spinner) spinner.style.display = 'block';
         container.innerHTML = '';
         
-        // Build query params
+        
         const params = new URLSearchParams();
         if (filters.category) params.append('category', filters.category);
         if (filters.status) params.append('status', filters.status);
@@ -35,7 +31,7 @@ async function loadItems(filters = {}) {
         const queryString = params.toString() ? `?${params.toString()}` : '';
         const data = await window.API.apiGet(`/found-items${queryString}`);
         
-        // Hide spinner
+        
         if (spinner) spinner.style.display = 'none';
         
         if (!data || data.length === 0) {
@@ -47,7 +43,7 @@ async function loadItems(filters = {}) {
             return;
         }
         
-        // Render items
+        
         container.innerHTML = data.map(item => renderItemCard(item)).join('');
         
     } catch (error) {
@@ -60,7 +56,7 @@ async function loadItems(filters = {}) {
     }
 }
 
-// Render an item card
+
 function renderItemCard(item) {
     const statusClass = `status-${item.status}`;
     const statusLabel = item.status.replace('_', ' ').toUpperCase();
@@ -84,7 +80,7 @@ function renderItemCard(item) {
     `;
 }
 
-// Load item detail
+
 async function loadItemDetail() {
     const params = new URLSearchParams(window.location.search);
     const itemId = params.get('id');
@@ -105,7 +101,7 @@ async function loadItemDetail() {
         
         renderItemDetail(item);
         
-        // Check if user can claim
+    
         const user = window.API.getCurrentUser();
         const isLoggedIn = window.API.isAuthenticated();
         const canClaim = isLoggedIn && user && user.role === 'student' && item.status === 'unclaimed';
@@ -134,24 +130,22 @@ async function loadItemDetail() {
     }
 }
 
-// Render item detail
 function renderItemDetail(item) {
-    // Set title
+    
     document.getElementById('itemTitle').textContent = item.title;
     
-    // Set status
+    
     const statusEl = document.getElementById('itemStatus');
     statusEl.textContent = item.status.replace('_', ' ').toUpperCase();
     statusEl.className = `item-status status-${item.status}`;
     
-    // Set meta
+    
     document.getElementById('itemCategory').textContent = item.category;
     document.getElementById('itemLocation').textContent = item.location_found;
     document.getElementById('itemDate').textContent = new Date(item.date_found).toLocaleDateString();
     document.getElementById('itemPostedBy').textContent = item.posted_by?.full_name || 'Unknown';
     document.getElementById('itemDescription').textContent = item.description;
     
-    // Render images
     const imagesContainer = document.getElementById('itemImages');
     if (imagesContainer) {
         if (item.images && item.images.length > 0) {
@@ -174,7 +168,6 @@ function renderItemDetail(item) {
     }
 }
 
-// Setup filter functionality
 function setupFilters() {
     const applyBtn = document.getElementById('applyFilters');
     if (!applyBtn) return;
@@ -187,7 +180,6 @@ function setupFilters() {
     });
 }
 
-// Setup claim form
 function setupClaimForm(itemId) {
     const form = document.getElementById('claimForm');
     if (!form) return;
@@ -225,7 +217,6 @@ function setupClaimForm(itemId) {
     });
 }
 
-// Helper: Show message
 function showMessage(element, message, type) {
     if (!element) return;
     element.style.display = 'block';
