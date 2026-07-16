@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.api import auth
 
 app = FastAPI(
@@ -7,18 +8,17 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Register our auth router. All routes inside it get the /auth prefix.
-# e.g. POST /auth/register, POST /auth/login, GET /auth/me
+# CORS middleware — must be added before any routes
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # During development allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow GET, POST, PATCH, DELETE etc.
+    allow_headers=["*"],  # Allow Authorization header etc.
+)
+
 app.include_router(auth.router)
-
-# We will add more routers here as we build them:
-# app.include_router(found_items.router)
-# app.include_router(images.router)
-# app.include_router(inquiries.router)
-# app.include_router(messages.router)
-
 
 @app.get("/")
 def health_check():
-    """Simple ping endpoint to confirm the server is running."""
     return {"status": "ok", "message": "Lost & Found API is running"}
