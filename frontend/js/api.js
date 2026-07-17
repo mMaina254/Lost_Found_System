@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://lostfoundsystem-production-67bd.up.railway.app";
+const API_BASE_URL = "https://lostfoundsystem-production-3c15.up.railway.app/";
 
 
 // TOKEN STORAGE
