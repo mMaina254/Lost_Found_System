@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import auth, found_items
+from app.api import auth, found_items, inquiries,messages,images
 
 app = FastAPI(
     title="Lost & Found API",
@@ -8,17 +8,21 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS middleware — must be added before any routes
+# CORS middleware must be added before any routes
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # During development allow all origins
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],  # Allow GET, POST, PATCH, DELETE etc.
-    allow_headers=["*"],  # Allow Authorization header etc.
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
 
 app.include_router(auth.router)
 app.include_router(found_items.router)
+app.include_router(inquiries.router)
+app.include_router(messages.router)
+app.include_router(images.router)
+
 
 @app.get("/")
 def health_check():
